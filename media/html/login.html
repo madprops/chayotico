@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+	<head>
+		<title> login </title>
+		<meta name="description" content="annonymous imageboard">
+		<meta name="keywords" content="imageboard, 4chan, 8chan, annonymous">
+		<link rel='stylesheet' href='/media/css/style.css'>
+	</head>
+	<body>
+
+		<br><br><br><br><br>
+
+		<table align="center" border="0" style='max-width:200px'>
+
+			<tr> <td>
+
+				<div> <a href='/' class='login_header'>326chan</a> login</div>
+
+				<br>
+
+				<div style='font-size:0.7em'> 
+					when you're logged in you will receive notifications when someone replies to you. your username won't be shown
+				</div>
+
+				<br>
+
+				<form method='post' action='/login/' name='form'> {% csrf_token %}
+					<input type='text' name='username' placeholder='username' tabindex="1" autofocus>
+					<br>
+					<br>
+					<input type='password' name='password' placeholder='password' tabindex="2">
+					<br>
+					<br>
+					<input type='submit' value='login' tabindex="3">
+				</form>
+
+				<br>
+
+				<div> you can register below </div>
+
+				<br>
+
+				<form method='post' action='/register/' name='form'> {% csrf_token %}
+					<input type='text' name='username' placeholder='username' tabindex="4">
+					<br>
+					<br>
+					<input type='password' name='password' placeholder='password' tabindex="5">
+					<br>
+					<br>
+					<input type='submit' value='register' tabindex="6">
+				</form>
+
+			</td></tr>
+
+		</table>
+
+	</body>
+</html>

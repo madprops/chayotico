@@ -1,0 +1,41 @@
+{% load filters %}
+
+<!doctype html>
+<html>
+<head>
+	<title> notifications </title>
+	<meta name="description" content="annonymous imageboard">
+	<meta name="keywords" content="imageboard, 4chan, 8chan, annonymous">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="/media/img/favicon.ico" type="image/x-icon">
+	<link rel='stylesheet' href='/media/css/style.css'>
+	<script src='/media/js/jquery.js'></script>
+	<script src='/media/js/base.js'></script>
+	<script>
+		$(function()
+		{
+			csrf_token = '{{csrf_token}}';
+			init();
+		})
+	</script>
+</head>
+<body>
+
+	<div id='header'>
+		<a class='header_text' href='/' style='text-decoration:underline'>326chan</a> &nbsp;&nbsp; notifications
+		<div class='clear'>
+	</div>
+
+	<div class='v2'></div>
+
+	<div style='padding-left:0.5em'>
+
+		{% for n in notifs %}
+			<div> {{n.date | date:"n/j/y P"}} </div>
+			<a href='{{n.url}}' class='notif'>{{n.text}}</a>
+		{% endfor %}
+
+	</div>
+
+</body>
+</html>

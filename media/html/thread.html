@@ -1,0 +1,140 @@
+{% load filters %}
+
+<!doctype html>
+<html>
+<head>
+	<title> {{fobs.thread.text | title}} </title>
+	<meta name="description" content="annonymous imageboard">
+	<meta name="keywords" content="imageboard, 4chan, 8chan, annonymous">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="/media/img/favicon.ico" type="image/x-icon">
+	<link rel='stylesheet' href='/media/css/style.css'>
+	<script src='/media/js/jquery.js'></script>
+	<script src='/media/js/base.js'></script>
+	<script>
+		$(function()
+		{
+			csrf_token = '{{csrf_token}}';
+			{% if user.is_authenticated %}
+				loggedin = 'yes'
+			{% else %}
+				loggedin = 'no'
+			{% endif %}
+			init();
+		})
+	</script>
+</head>
+<body>
+
+	<div id='header'>
+		<a class='header_text' href='/'> 326chan </a>
+		{% if user.is_authenticated %}
+			<span id='notif'> <a id='notifs_link' href='/notifications' class='notifs'>{{notifs}}</a> &nbsp;&nbsp;&nbsp; <a href='/logout' class='login'>logout</a> </span>
+		{% else %}
+			<span id='notif'> <a href='/login' class='login'>login</a> &nbsp; to receive notifications </span>
+		{% endif %}
+		<div class='clear'>
+	</div>
+
+	<div class='v1'></div>
+
+	<div id='new_board_form'>
+		<form enctype="multipart/form-data" action='' method='post' name='form'> {% csrf_token %}
+			<textarea name='text' cols=40 rows=4 placeholder='text'></textarea>
+			<div class='v05'></div>
+
+			<input name='file' type='file'>
+
+			<input onclick='this.disabled=true;this.form.submit()' class='form_submit' type='submit' value='reply'>
+		</form>
+	</div>
+
+	<div class='v3'></div>
+
+	<div id='posts'>
+
+		<div class='op'>
+			<div class='post_id' id={{fobs.thread.id}}> </div>
+			<a target=_blank href='/media/files/{{fobs.thread.id}}.{{fobs.thread.extension}}'>
+				{% if fobs.thread.extension != 'webm' %}
+					<img class='post_file' src='/media/files/{{fobs.thread.id}}_thumb.{{fobs.thread.extension}}'>
+				{% else %}
+					<video class='post_file' src='/media/files/{{fobs.thread.id}}.{{fobs.thread.extension}}' controls='controls' preload='metadata'>
+				{% endif %}
+			</a>
+			<div class='post_details'> 
+				<div class='post_date'> {{fobs.thread.date | date:"n/j/y P"}} </div> 
+				<div class='post_number'> #{{fobs.thread.id}} </div>
+				<div onclick="respond('{{fobs.thread.id}}')" class='respond'> reply </div>
+				{% if user.is_authenticated %}
+					<a href='/delete_thread/{{fobs.thread.id}}' class='admin_menu'> delete </a>
+					<div onclick='ban({{p.post.id}});' class='admin_menu'> ban </div>
+				{% endif %}
+				{% for q in fobs.thread_quotes %}
+					<div onclick='go_to_post({{q.post.id}})' class='header_quote'> >>{{q.post.id}} </div>
+				{% endfor %}
+			</div>
+			<br>
+			<span class='post_text'> {{fobs.thread.text|linebreaks|arrows|quotes_text:fobs.thread.id}} </span>
+		</div>
+
+		<div class='clear'></div>
+
+		{% for p in fobs.posts %}
+			<div class='v05'></div>
+			<div class='reply'>
+				<a name="{{p.post.id}}"></a>
+				<div class='post_id' id={{p.post.id}}> </div>
+				{% if p.post.extension %}
+					<a target=_blank href='/media/files/{{p.post.id}}.{{p.post.extension}}'>
+						{% if p.post.extension != 'webm' %}
+							<img class='post_file' src='/media/files/{{p.post.id}}_thumb.{{p.post.extension}}'>
+						{% else %}
+							<video class='post_file' src='/media/files/{{p.post.id}}.{{p.post.extension}}' controls='controls' preload='metadata'>
+						{% endif %}
+					</a>
+				{% endif %}
+				<div class='post_details'> 
+					<div class='post_date'> {{p.post.date | date:"n/j/y P"}} </div> 
+					<div class='post_number'> #{{p.post.id}} </div>
+					<div onclick="respond('{{p.post.id}}')" class='respond'> quote </div>
+					{% if user.username == 'madprops' %}
+						<div onclick='delete_post({{p.post.id}});' class='admin_menu'> delete </div>
+						<div onclick='ban({{p.post.id}});' class='admin_menu'> ban </div>
+					{% endif %}
+					{% for q in p.quotes %}
+						<div onclick='go_to_post({{q.post.id}})' class='header_quote'> >>{{q.post.id}} </div>
+					{% endfor %}
+				</div>
+				<br>
+				<span class='post_text'> {{p.post.text|linebreaks|arrows|quotes_text:fobs.thread.id}} </span>
+				<div class='clear'></div>
+			</div>
+		{% endfor %}
+
+	</div>
+
+	<img id='image_hover'>
+
+	<div id='popup_form'>
+		<form enctype="multipart/form-data" action='' method='post' name='form'> {% csrf_token %}
+			<div onclick='close_popup_form()' class='close_form'> [close] </div>
+			<br>
+			<div class='v05'></div>
+			<textarea id='popup_text' name='text' cols=40 rows=4 placeholder='text'></textarea>
+			<div class='v05'></div>
+
+			<input name='file' type='file'>
+
+			<input onclick='this.disabled=true;this.form.submit()' class='form_submit' type='submit' value='reply'>
+		</form>
+	</div>
+
+	<div id='popup_post'></div>
+
+	<div class='clear v2'></div>
+
+	<a name="bottom"></a>
+
+</body>
+</html>
