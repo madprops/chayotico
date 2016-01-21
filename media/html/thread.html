@@ -67,7 +67,6 @@
 				<div class='post_number'> #{{fobs.thread.id}} </div>
 				<div onclick="respond('{{fobs.thread.id}}')" class='respond'> reply </div>
 				{% if user.username == 'madprops' %}
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href='/delete_thread/{{fobs.thread.id}}' class='admin_menu'> delete </a>
 					<div onclick='ban({{p.post.id}});' class='admin_menu'> ban </div>
 				{% endif %}
