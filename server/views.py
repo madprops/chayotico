@@ -197,7 +197,7 @@ def check_post(request):
 	text = request.POST['text'].strip()
 	if len(text) == 0:
 		try:
-			image = request.FILES['image']
+			image = request.FILES['file']
 		except:
 			return 'notextorimage'
 	if len(text) > 4000:
