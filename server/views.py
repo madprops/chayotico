@@ -242,6 +242,10 @@ def login(request):
 			if user.is_active:
 				auth_login(request, user)
 				return HttpResponseRedirect('/')
+		else:
+			c = {}
+			c['error_msg'] = "username and password don't match"
+			return render(request, 'login.html', c)
 	c = {}
 	return render(request, 'login.html', c)
 
@@ -257,10 +261,19 @@ def register(request):
 			user.backend='django.contrib.auth.backends.ModelBackend'
 			auth_login(request, user)
 			return HttpResponseRedirect('/')
+		else:
+			c = {}
+			c['error_msg'] = msg
+			return render(request, 'login.html', c)
 
 def check_register(request):
 	username = request.POST['username']
 	password = request.POST['password']
+	try:
+		user = User.objects.get(username=username)
+		return 'username already exists'
+	except:
+		pass
 	if len(username) > 50:
 		return 'username is too long'
 	if len(password) > 100:

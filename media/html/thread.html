@@ -63,9 +63,9 @@
 				{% endif %}
 			</a>
 			<div class='post_details'> 
-				<div class='post_date'> {{fobs.thread.date | date:"n/j/y P"}} </div> 
+				<div class='post_date' title='{{fobs.thread.date | date:"n/j/y P"}}'> {{fobs.thread.date | radtime}} </div> 
 				<div class='post_number'> #{{fobs.thread.id}} </div>
-				<div onclick="respond('{{fobs.thread.id}}')" class='respond'> reply </div>
+				<div onclick="respond('{{fobs.thread.id}}')" class='respond'> quote </div>
 				{% if user.username == 'madprops' %}
 					<a href='/delete_thread/{{fobs.thread.id}}' class='admin_menu'> delete </a>
 					<div onclick='ban({{p.post.id}});' class='admin_menu'> ban </div>
@@ -95,7 +95,7 @@
 					</a>
 				{% endif %}
 				<div class='post_details'> 
-					<div class='post_date'> {{p.post.date | date:"n/j/y P"}} </div> 
+					<div class='post_date' title='{{p.post.date | date:"n/j/y P"}}'> {{p.post.date | radtime}} </div> 
 					<div class='post_number'> #{{p.post.id}} </div>
 					<div onclick="respond('{{p.post.id}}')" class='respond'> quote </div>
 					{% if user.username == 'madprops' %}

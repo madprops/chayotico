@@ -63,7 +63,7 @@
 				{% endif %}
 			</a>
 			<div class='post_details'> 
-				<div class='thread_date'> {{f.thread.date | date:"n/j/y P"}} </div> 
+				<div class='thread_date' title='{{f.thread.date | date:"n/j/y P"}}'> {{f.thread.date | radtime}} </div> 
 				<div class='reply_count'> {{f.thread.reply_count | replies}} </div>
 				<a class='respond' href='/{{ f.thread.id }}'> open </a>
 				{% if user.username == 'madprops' %}

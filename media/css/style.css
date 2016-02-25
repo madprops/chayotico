@@ -100,7 +100,7 @@ a.login_header:link, a.login_header:hover, a.login_header:visited
 	float: left;
 	padding-right: 0.9em;
 	padding-bottom: 0.9em;
-	max-width: 250px;
+	width: 250px;
 }
 
 .post_details
@@ -312,4 +312,11 @@ button
 {
 	font-size: 1.4em;
 	padding-bottom: 2em;
+}
+
+.login_error_msg
+{
+	margin-top: 40px;
+	background-color: red;
+	color: white;
 }

@@ -4,6 +4,8 @@
 		<title> login </title>
 		<meta name="description" content="annonymous imageboard">
 		<meta name="keywords" content="imageboard, 4chan, 8chan, annonymous">
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="/media/img/favicon.ico" type="image/x-icon">
 		<link rel='stylesheet' href='/media/css/style.css'>
 	</head>
 	<body>
@@ -49,6 +51,10 @@
 					<br>
 					<input type='submit' value='register' tabindex="6">
 				</form>
+
+				{% if error_msg %}
+					<div class='login_error_msg'> {{error_msg}} </div>
+				{% endif %}
 
 			</td></tr>
 

@@ -31,7 +31,7 @@
 	<div style='padding-left:0.5em'>
 
 		{% for n in notifs %}
-			<div> {{n.date | date:"n/j/y P"}} </div>
+			<div title='{{n.date | date:"n/j/y P"}}'> {{n.date | radtime}} </div>
 			<a href='{{n.url}}' class='notif'>{{n.text}}</a>
 		{% endfor %}
 
