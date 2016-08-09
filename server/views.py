@@ -193,13 +193,13 @@ def save_quotes(post, thread):
 			q.save()
 			if quote.user.is_authenticated() and quote.user != post.user:
 				text = "someone replied to you in a thread"
-				url = "/" + str(thread.id) + "#" + str(post.id)
+				url = "/" + thread.board.abbr + "/" + str(thread.id) + "#" + str(post.id)
 				notif = Notification(user=quote.user, text=text, url=url, date=now())
 				notif.save()
 	if len(qids) == 0:
 		if post.user != thread.user:
 			text = "someone posted in your thread"
-			url = "/" + str(thread.id) + "#" + str(post.id)
+			url = "/" + thread.board.abbr + "/" + str(thread.id) + "#" + str(post.id)
 			notif = Notification(user=thread.user, text=text, url=url, date=now())
 			notif.save()
 

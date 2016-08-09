@@ -212,6 +212,7 @@ a.notif:link, a.notif:hover, a.notif:visited
 	text-decoration: underline;
 	float: left;
 	cursor: pointer;
+	padding-right: 20px;
 }
 
 .admin_menu
