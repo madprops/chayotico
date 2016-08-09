@@ -28,7 +28,24 @@ def is_banned(request):
 				return True
 		return False
 
+def boards_to_html():
+	s = ""
+	s += "<div id='board_list'>"
+	boards = Board.objects.all().order_by('abbr')
+	for b in boards:
+		s += "<a class='board_link' href='/" + b.abbr + "/'>/" + b.abbr + "/</a> <span class='h10'></span>"
+	s += "</div>"
+	return s
+
+def get_random_board():
+	return Board.objects.order_by('?')[0]
+
 def main(request):
+	board = get_random_board()
+	return HttpResponseRedirect('/' + board.abbr + '/')
+
+def board(request, board):
+	board = Board.objects.get(abbr=board)
 	if request.method == 'POST':
 		if is_banned(request):
 			return HttpResponseRedirect('/error/7')
@@ -42,12 +59,12 @@ def main(request):
 			ip = get_ip(request)
 			if not ip:
 				ip = 0
-			p = Post(text=text, date=now(), last_modified=now(), ip=ip)
+			p = Post(board=board, text=text, date=now(), last_modified=now(), ip=ip)
 			if request.user.is_authenticated():
 				p.user = request.user
 			p.save()
 			handle_uploaded_file(file, p)
-			return HttpResponseRedirect('/' + str(p.id))
+			return HttpResponseRedirect('/' + board.abbr + '/' + str(p.id))
 		elif status == 'mustwait':
 			return HttpResponseRedirect('/error/1')
 		elif status == 'toolong':
@@ -60,8 +77,10 @@ def main(request):
 			return HttpResponseRedirect('/')
 	else:
 		c = {}
+		c['board_name'] = board.name
+		c['board_abbr'] = board.abbr
 		fobs = []
-		posts = Post.objects.filter(reply__isnull=True).order_by('-last_modified')[:50]
+		posts = Post.objects.filter(board=board, reply__isnull=True).order_by('-last_modified')[:50]
 		for p in posts:
 			fobitem = {}
 			fobitem['thread'] = p
@@ -73,9 +92,11 @@ def main(request):
 				c['notifs'] = '1 notification'
 			else:
 				c['notifs'] = str(num_notifs) + ' notifications'
+		c['boards_html'] = boards_to_html()
 		return render(request, 'main.html', c)
 
-def thread(request, id):
+def thread(request, board, id):
+	board = Board.objects.get(abbr=board)
 	if request.method == 'POST':
 		if is_banned(request):
 			return HttpResponseRedirect('/error/7')
@@ -83,10 +104,12 @@ def thread(request, id):
 		status = check_post(request)
 		if status == 'ok':
 			thread = Post.objects.get(id=id)
+			if thread.reply_count >= 300:
+				return HttpResponseRedirect('/error/8')
 			ip = get_ip(request)
 			if not ip:
 				ip = 0
-			p = Post(text=text, date=now(), reply=thread, ip=ip)
+			p = Post(board=board, text=text, date=now(), reply=thread, ip=ip)
 			if request.user.is_authenticated():
 				p.user = request.user
 			p.save()
@@ -104,7 +127,7 @@ def thread(request, id):
 				save_quotes(post, thread)
 			except:
 				pass
-			return HttpResponseRedirect('/' + id + '/#bottom')
+			return HttpResponseRedirect('/' + board.abbr + '/' + id + '/#bottom')
 		elif status == 'mustwait':
 			return HttpResponseRedirect('/error/1')
 		elif status == 'toolong':
@@ -112,9 +135,11 @@ def thread(request, id):
 		elif status == 'linebreaks':
 			return HttpResponseRedirect('/error/6')
 		else:
-			return HttpResponseRedirect('/' + id + '/#bottom')
+			return HttpResponseRedirect('/' + board.abbr + '/' + id + '/#bottom')
 	else:
 		c = {}
+		c['board_name'] = board.name
+		c['board_abbr'] = board.abbr
 		fobs = {}
 		fobs['thread'] = Post.objects.get(id=id)
 		fobs['thread_quotes'] = Quote.objects.filter(quote=fobs['thread'])
@@ -132,6 +157,7 @@ def thread(request, id):
 				c['notifs'] = '1 notification'
 			else:
 				c['notifs'] = str(num_notifs) + ' notifications'
+		c['boards_html'] = boards_to_html()
 		return render(request, 'thread.html', c)
 
 def error(request, code):
@@ -151,6 +177,8 @@ def error(request, code):
 		c['message'] = "error: too many linebreaks"
 	elif code == 7:
 		c['message'] = "error: you were banned for 30 days"
+	elif code == 8:
+		c['message'] = "error: unable to make post, thread is full"
 	return render(request, 'message.html', c)
 
 def save_quotes(post, thread):
@@ -216,7 +244,7 @@ def check_post(request):
 
 def handle_uploaded_file(file, post):
 	extension = file.name.split('.')[-1].lower()
-	if extension not in ['png', 'jpeg', 'jpg', 'gif', 'webm']:
+	if extension not in ['png', 'jpeg', 'jpg', 'gif', 'webm', 'mp4']:
 		post.delete()
 		return HttpResponseRedirect('/error/5')
 	path_base = BASE_DIR + '/media/files/' + str(post.id)

@@ -200,7 +200,7 @@ a.notif:link, a.notif:hover, a.notif:visited
 {
 	display: none;
 	position: fixed;
-	top: 2em;
+	top: 5em;
 	right: 0em;
 	background-color: #42464C;
 	padding: 0.5em;
@@ -232,7 +232,7 @@ a.notif:link, a.notif:hover, a.notif:visited
 
 .close_form
 {
-	float: right;
+	float: left;
 	cursor: pointer;
 }
 
@@ -319,4 +319,35 @@ button
 	margin-top: 40px;
 	background-color: red;
 	color: white;
+}
+
+#board_list
+{
+	padding-left: 12px;
+	padding-top:5px;
+}
+
+a.board_link:link, a.board_link:hover, a.board_link:visited
+{
+	color: #5F89AC;
+	text-decoration: none;
+}
+
+a.board_name_link:link, a.board_name_link:hover, a.board_name_link:visited
+{
+	color: #5F89AC;
+	text-decoration: none;
+	color: #C5C8C6;
+}
+
+.h10
+{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.thread_message
+{
+	padding-top: 20px;
+	padding-left: 10px;
 }

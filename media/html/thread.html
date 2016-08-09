@@ -3,7 +3,7 @@
 <!doctype html>
 <html>
 <head>
-	<title> {{fobs.thread.text | title}} </title>
+	<title> /{{board_abbr}}/ - {{fobs.thread.text | title}} - 326chan </title>
 	<meta name="description" content="annonymous imageboard">
 	<meta name="keywords" content="imageboard, 4chan, 8chan, annonymous">
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -27,7 +27,7 @@
 <body>
 
 	<div id='header'>
-		<a class='header_text' href='/'> 326chan </a>  &nbsp;&nbsp; thread
+		<a class='header_text' href='/'> 326chan </a>  &nbsp;&nbsp; thread on <a class='board_name_link' href='/{{ board_abbr }}/'>{{ board_name }}</a>
 		{% if user.is_authenticated %}
 			<span id='notif'> <a id='notifs_link' href='/notifications' class='notifs'>{{notifs}}</a> &nbsp;&nbsp;&nbsp; <a href='/logout' class='login'>logout</a> </span>
 		{% else %}
@@ -36,7 +36,11 @@
 		<div class='clear'>
 	</div>
 
+	{{ boards_html | safe }}
+
 	<div class='v1'></div>
+
+	{% if fobs.thread.reply_count < 300 %}
 
 	<div id='new_board_form'>
 		<form enctype="multipart/form-data" action='' method='post' name='form'> {% csrf_token %}
@@ -49,6 +53,12 @@
 		</form>
 	</div>
 
+	{% else %}
+
+	<div class='thread_message'> Thread is full and it's not accepting more answers </div>
+
+	{% endif %}
+
 	<div class='v3'></div>
 
 	<div id='posts'>
@@ -56,7 +66,7 @@
 		<div class='op'>
 			<div class='post_id' id={{fobs.thread.id}}> </div>
 			<a target=_blank href='/media/files/{{fobs.thread.id}}.{{fobs.thread.extension}}'>
-				{% if fobs.thread.extension != 'webm' %}
+				{% if fobs.thread.extension != 'webm' and fobs.thread.extension != 'mp4'%}
 					<img class='post_file' src='/media/files/{{fobs.thread.id}}_thumb.{{fobs.thread.extension}}'>
 				{% else %}
 					<video class='post_file' src='/media/files/{{fobs.thread.id}}.{{fobs.thread.extension}}' controls='controls' preload='metadata'>
@@ -87,7 +97,7 @@
 				<div class='post_id' id={{p.post.id}}> </div>
 				{% if p.post.extension %}
 					<a target=_blank href='/media/files/{{p.post.id}}.{{p.post.extension}}'>
-						{% if p.post.extension != 'webm' %}
+						{% if p.post.extension != 'webm' and p.post.extension != 'mp4' %}
 							<img class='post_file' src='/media/files/{{p.post.id}}_thumb.{{p.post.extension}}'>
 						{% else %}
 							<video class='post_file' src='/media/files/{{p.post.id}}.{{p.post.extension}}' controls='controls' preload='metadata'>

@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     (r'^error/(?P<code>\w+)/$', 'server.views.error'),
     (r'^notifications/$', 'server.views.notifications'),
     (r'^check_notifs/$', 'server.views.check_notifs'),
-    (r'^(?P<id>\w+)/$', 'server.views.thread'),
+    (r'^(?P<board>\w+)/$', 'server.views.board'),
+    (r'^(?P<board>\w+)/(?P<id>\w+)/$', 'server.views.thread'),
 )
