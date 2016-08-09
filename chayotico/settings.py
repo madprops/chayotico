@@ -78,9 +78,9 @@ WSGI_APPLICATION = 'chayotico.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'chayotico',                      # Or path to database file if using sqlite3.
-        'USER': 'debaser',                      # Not used with sqlite3.
-        'PASSWORD': '420debaser',                  # Not used with sqlite3.
+        'NAME': 'uygyu',                      # Or path to database file if using sqlite3.
+        'USER': '87yiuh',                      # Not used with sqlite3.
+        'PASSWORD': '98u8hj9',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
