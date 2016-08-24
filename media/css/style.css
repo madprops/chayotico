@@ -352,3 +352,8 @@ a.board_name_link:link, a.board_name_link:hover, a.board_name_link:visited
 	padding-top: 20px;
 	padding-left: 10px;
 }
+
+.posted_on
+{
+	padding-bottom: 10px;
+}

@@ -32,6 +32,7 @@ def boards_to_html():
 	s = ""
 	s += "<div id='board_list'>"
 	boards = Board.objects.all().order_by('abbr')
+	s += "<a class='board_link' href='/all/'>/all/</a> <span class='h10'></span>"
 	for b in boards:
 		s += "<a class='board_link' href='/" + b.abbr + "/'>/" + b.abbr + "/</a> <span class='h10'></span>"
 	s += "</div>"
@@ -41,12 +42,18 @@ def get_random_board():
 	return Board.objects.order_by('?')[0]
 
 def main(request):
-	board = get_random_board()
-	return HttpResponseRedirect('/' + board.abbr + '/')
+	# board = get_random_board()
+	# return HttpResponseRedirect('/' + board.abbr + '/')
+	return HttpResponseRedirect('/all/')
 
 def board(request, board):
-	board = Board.objects.get(abbr=board)
+
+	if board != 'all':
+		board = Board.objects.get(abbr=board)
+
 	if request.method == 'POST':
+		if board == 'all':
+			return HttpResponseRedirect('/all/')
 		if is_banned(request):
 			return HttpResponseRedirect('/error/7')
 		text = request.POST['text'].strip()
@@ -77,10 +84,17 @@ def board(request, board):
 			return HttpResponseRedirect('/')
 	else:
 		c = {}
-		c['board_name'] = board.name
-		c['board_abbr'] = board.abbr
 		fobs = []
-		posts = Post.objects.filter(board=board, reply__isnull=True).order_by('-last_modified')[:50]
+
+		if board == 'all':
+			c['board_name'] = board
+			c['board_abbr'] = board
+			posts = Post.objects.filter(reply__isnull=True).order_by('-last_modified')[:50]
+		else:
+			c['board_name'] = board.name
+			c['board_abbr'] = board.abbr
+			posts = Post.objects.filter(board=board, reply__isnull=True).order_by('-last_modified')[:50]
+
 		for p in posts:
 			fobitem = {}
 			fobitem['thread'] = p
@@ -144,7 +158,7 @@ def thread(request, board, id):
 		fobs['thread'] = Post.objects.get(id=id)
 		fobs['thread_quotes'] = Quote.objects.filter(quote=fobs['thread'])
 		fobs['posts'] = []
-		posts = Post.objects.filter(reply=fobs['thread'])
+		posts = Post.objects.filter(reply=fobs['thread']).order_by('id')
 		for p in posts:
 			fobitem = {}
 			fobitem['post'] = p

@@ -38,25 +38,38 @@
 
 	{{ boards_html | safe }}
 
-	<div class='v1'></div>
 
-	<div id='new_board_form'>
-		<form enctype="multipart/form-data" action='' method='post' name='form'> {% csrf_token %}
-			<textarea name='text' cols=40 rows=4 placeholder='text'></textarea>
+	{% if board_abbr != 'all' %}
+		
+		<div class='v1'></div>
 
-			<div class='v05'></div>
+		<div id='new_board_form'>
+			<form enctype="multipart/form-data" action='' method='post' name='form'> {% csrf_token %}
+				<textarea name='text' cols=40 rows=4 placeholder='text'></textarea>
 
-			<input name='file' type='file'>
+				<div class='v05'></div>
 
-			<input onclick='this.disabled=true;this.form.submit()' class='form_submit' type='submit' value='create thread'>
-		</form>
-	</div>
+				<input name='file' type='file'>
 
-	<div class='v3'></div>
+				<input onclick='this.disabled=true;this.form.submit()' class='form_submit' type='submit' value='create thread'>
+			</form>
+		</div>
+		
+		<div class='v3'></div>
+
+	{% else %}
+
+		<div class='v2'></div>
+
+	{% endif %}
+
 
 	<div id='posts'>
 
 		{% for f in fobs %}
+			{% if board_abbr == 'all' %}
+				<div class='posted_on'> posted on &nbsp; <a class='board_link' href='/{{f.thread.board.abbr}}/'> /{{f.thread.board.abbr}}/ </a> </div>
+			{% endif %}
 			<a target=_blank href='/media/files/{{f.thread.id}}.{{f.thread.extension}}'>
 				{% if f.thread.extension != 'webm' and f.thread.extension != 'mp4' %}
 					<img class='post_file' src='/media/files/{{f.thread.id}}_thumb.{{f.thread.extension}}'>
@@ -67,7 +80,7 @@
 			<div class='post_details'> 
 				<div class='thread_date' title='{{f.thread.date | date:"n/j/y P"}}'> {{f.thread.date | radtime}} </div> 
 				<div class='reply_count'> {{f.thread.reply_count | replies}} </div>
-				<a class='respond' href='/{{ board_abbr }}/{{ f.thread.id }}'> open </a>
+				<a class='respond' href='/{{ f.thread.board.abbr }}/{{ f.thread.id }}'> open </a>
 				{% if user.username == 'madprops' %}
 					<a href='/delete_thread/{{f.thread.id}}' class='admin_menu'> delete </a>
 					<a href='/raise_thread/{{f.thread.id}}' class='admin_menu'> bump </a>
