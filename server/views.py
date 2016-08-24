@@ -178,7 +178,7 @@ def error(request, code):
 	code = int(code)
 	c = {}
 	if code == 1:
-		c['message'] = "error: you must wait a minute to post again"
+		c['message'] = "error: you must wait 30 seconds after your last post"
 	elif code == 2:
 		c['message'] = "error: text can't exceed 4000 characters"
 	elif code == 3:
@@ -229,7 +229,7 @@ def check_thread(request):
 		if request.user.username != 'madprops':
 			ip = get_ip(request)
 			last_post = Post.objects.filter(ip=ip).last()
-			if now() - last_post.date < datetime.timedelta(minutes=1):
+			if now() - last_post.date < datetime.timedelta(seconds=30):
 				return 'mustwait'
 	except:
 		pass
@@ -250,7 +250,7 @@ def check_post(request):
 		if request.user.username != 'madprops':
 			ip = get_ip(request)
 			last_post = Post.objects.filter(ip=ip).last()
-			if now() - last_post.date < datetime.timedelta(minutes=1):
+			if now() - last_post.date < datetime.timedelta(seconds=30):
 				return 'mustwait'
 	except:
 		pass
