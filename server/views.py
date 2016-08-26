@@ -12,6 +12,8 @@ from server.models import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+admins = ('madprops',)
+
 def log(s):
 	with open(BASE_DIR + '/log', 'a') as log:
 		log.write(str(s) + '\n\n')
@@ -107,6 +109,10 @@ def board(request, board):
 			else:
 				c['notifs'] = str(num_notifs) + ' notifications'
 		c['boards_html'] = boards_to_html()
+		if request.user.username in admins:
+			c['is_admin'] = 'yes'
+		else:
+			c['is_admin'] = 'no'
 		return render(request, 'main.html', c)
 
 def thread(request, board, id):
@@ -172,6 +178,10 @@ def thread(request, board, id):
 			else:
 				c['notifs'] = str(num_notifs) + ' notifications'
 		c['boards_html'] = boards_to_html()
+		if request.user.username in admins:
+			c['is_admin'] = 'yes'
+		else:
+			c['is_admin'] = 'no'
 		return render(request, 'thread.html', c)
 
 def error(request, code):
@@ -226,7 +236,7 @@ def check_thread(request):
 	if text.count('\n') > 80:
 		return 'linebreaks'
 	try:
-		if request.user.username != 'madprops':
+		if request.user.username not in admins:
 			ip = get_ip(request)
 			last_post = Post.objects.filter(ip=ip).last()
 			if now() - last_post.date < datetime.timedelta(seconds=30):
@@ -247,7 +257,7 @@ def check_post(request):
 	if text.count('\n') > 80:
 		return 'linebreaks'
 	try:
-		if request.user.username != 'madprops':
+		if request.user.username not in admins:
 			ip = get_ip(request)
 			last_post = Post.objects.filter(ip=ip).last()
 			if now() - last_post.date < datetime.timedelta(seconds=30):
@@ -331,7 +341,7 @@ def logout(request):
 	return HttpResponseRedirect('/login')
 
 def delete_thread(request, id):
-	if request.user.username == 'madprops':
+	if request.user.username in admins:
 		p = Post.objects.get(id=id)
 		p.delete()
 	return HttpResponseRedirect('/')
@@ -339,7 +349,7 @@ def delete_thread(request, id):
 def delete_post(request):
 	p = Post.objects.get(id=request.POST['id'])
 	thread = p.reply
-	if request.user.username == 'madprops':
+	if request.user.username in admins:
 		p.delete()
 		last_post = Post.objects.filter(reply=thread).last()
 		thread.reply_count -= 1
