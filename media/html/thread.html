@@ -77,8 +77,8 @@
 				<div class='post_number'> #{{fobs.thread.id}} </div>
 				<div onclick="respond('{{fobs.thread.id}}')" class='respond'> quote </div>
 				{% if user.username == 'madprops' %}
-					<a href='/delete_thread/{{fobs.thread.id}}' class='admin_menu'> delete </a>
-					<div onclick='ban({{p.post.id}});' class='admin_menu'> ban </div>
+					<a href='/delete_thread/{{fobs.thread.id}}' class='admin_menu delete_btn'> delete </a>
+					<div onclick='ban({{p.post.id}});' class='admin_menu ban_btn'> ban </div>
 				{% endif %}
 				{% for q in fobs.thread_quotes %}
 					<div onclick='go_to_post({{q.post.id}})' class='header_quote'> >>{{q.post.id}} </div>
@@ -109,8 +109,8 @@
 					<div class='post_number'> #{{p.post.id}} </div>
 					<div onclick="respond('{{p.post.id}}')" class='respond'> quote </div>
 					{% if user.username == 'madprops' %}
-						<div onclick='delete_post({{p.post.id}});' class='admin_menu'> delete </div>
-						<div onclick='ban({{p.post.id}});' class='admin_menu'> ban </div>
+						<div onclick='delete_post({{p.post.id}});' class='admin_menu delete_btn'> delete </div>
+						<div onclick='ban({{p.post.id}});' class='admin_menu ban_btn'> ban </div>
 					{% endif %}
 					{% for q in p.quotes %}
 						<div onclick='go_to_post({{q.post.id}})' class='header_quote'> >>{{q.post.id}} </div>

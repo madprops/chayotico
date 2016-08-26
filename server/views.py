@@ -87,8 +87,8 @@ def board(request, board):
 		fobs = []
 
 		if board == 'all':
-			c['board_name'] = board
-			c['board_abbr'] = board
+			c['board_name'] = 'All'
+			c['board_abbr'] = 'all'
 			posts = Post.objects.filter(reply__isnull=True).order_by('-last_modified')[:50]
 		else:
 			c['board_name'] = board.name

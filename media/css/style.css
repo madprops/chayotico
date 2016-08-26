@@ -157,7 +157,7 @@ a.notifs:link, a.notifs:hover, a.notifs:visited
 	text-decoration: underline;
 }
 
-a.notif:link, a.notif:hover, a.notif:visited
+a.notif:link
 {
 	color: #5F89AC;
 	text-decoration: underline;
@@ -165,6 +165,11 @@ a.notif:link, a.notif:hover, a.notif:visited
 	padding-bottom: 2em;
 	display: block;
 }
+
+/*a.notif:visited
+{
+
+}*/
 
 .reply
 {
@@ -214,7 +219,6 @@ a.notif:link, a.notif:hover, a.notif:visited
 	text-decoration: underline;
 	float: left;
 	cursor: pointer;
-	padding-right: 20px;
 }
 
 .admin_menu
@@ -224,6 +228,16 @@ a.notif:link, a.notif:hover, a.notif:visited
 	text-decoration: underline;
 	float: left;
 	cursor: pointer;
+}
+
+.delete_btn
+{
+	padding-left: 30px;
+}
+
+.ban_btn
+{
+	padding-right: 14px;
 }
 
 .quote

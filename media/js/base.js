@@ -27,14 +27,14 @@ function activate_image_hover()
 		{
 			var s = $(this).attr('src');
 			s = s.replace('_thumb', '');
-			$('#image_hover').attr('src', s);
 			$('#image_hover').css('display', 'block');
+			$('#image_hover').attr('src', s);
 			$('#image_hover').css('max-width', $(window).width() - 300);
 		})
 		$(this).mouseout(function()
 		{
 			$('#image_hover').css('display', 'none');
-			$('#image_hover').attr('src', '/media/pixel.png');
+			$('#image_hover').attr('src', '');
 			$('#image_hover').css('max-height', $(window).height());
 		})
 	});
