@@ -82,9 +82,9 @@
 				<div class='reply_count'> {{f.thread.reply_count | replies}} </div>
 				<a class='respond' href='/{{ f.thread.board.abbr }}/{{ f.thread.id }}'> open </a>
 				{% if is_admin == 'yes' %}
-					<a href='/delete_thread/{{f.thread.id}}' class='admin_menu delete_btn'> delete </a>
-					<a href='/raise_thread/{{f.thread.id}}' class='admin_menu'> bump </a>
-					<div onclick='ban({{p.post.id}});' class='admin_menu ban_btn'> ban </div>
+					<div ondblclick="window.location='/delete_thread/{{f.thread.id}}'" class='admin_menu delete_btn'> delete </div>
+					<div ondblclick="window.location='/raise_thread/{{f.thread.id}}'" class='admin_menu'> bump </div>
+					<div ondblclick='ban({{p.post.id}});' class='admin_menu ban_btn'> ban </div>
 				{% endif %}
 			</div>
 			<br>

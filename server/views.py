@@ -351,9 +351,12 @@ def delete_post(request):
 	thread = p.reply
 	if request.user.username in admins:
 		p.delete()
-		last_post = Post.objects.filter(reply=thread).last()
 		thread.reply_count -= 1
-		thread.last_modified = last_post.date
+		try:
+			last_post = Post.objects.filter(reply=thread).last()
+			thread.last_modified = last_post.date
+		except:
+			pass
 		thread.save()
 	return HttpResponse('ok')
 
