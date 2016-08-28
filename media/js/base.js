@@ -240,7 +240,7 @@ function enable_jumper()
 {
 	$(window).scroll(function()
 	{	
-		var point = 1;
+		var point = 50;
 		var scroll = $(window).scrollTop();
 
 		if(!jumper_on && scroll >= point)

@@ -380,7 +380,7 @@ a.board_name_link:link, a.board_name_link:hover, a.board_name_link:visited
 {
 	position: fixed;
 	top: 10px;
-	right: 20px;
+	right: 15px;
 	background-color: #1D1F21;
 	color: #C5C8C6;
 	font-size: 15px;
