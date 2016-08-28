@@ -1,3 +1,5 @@
+var jumper_on = false;
+
 function init()
 { 
 	activate_image_hover();
@@ -8,6 +10,7 @@ function init()
 		activate_check_notifs();
 	}
 	enable_inputs();
+	enable_jumper();
 	title = document.title;
 }
 
@@ -231,4 +234,39 @@ function enable_inputs()
 	{
 		$(this).attr('disabled', false);
 	})
+}
+
+function enable_jumper()
+{
+	$(window).scroll(function()
+	{	
+		var point = 1;
+		var scroll = $(window).scrollTop();
+
+		if(!jumper_on && scroll >= point)
+		{
+			show_jumper();
+			jumper_on = true;
+		}
+		else if(jumper_on && scroll < point)
+		{
+			hide_jumper();
+			jumper_on = false;
+		}
+	})
+}
+
+function show_jumper()
+{
+	$('#jumper').css('display', 'block');
+}
+
+function hide_jumper()
+{
+	$('#jumper').css('display', 'none');
+}
+
+function jump()
+{
+	$("html, body").animate({ scrollTop: 0 }, 600);
 }
