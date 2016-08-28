@@ -66,11 +66,13 @@
 		<div class='op'>
 			<div class='post_id' id={{fobs.thread.id}}> </div>
 			<a target=_blank href='/media/files/{{fobs.thread.id}}.{{fobs.thread.extension}}'>
+				<div class='file_container'>
 				{% if fobs.thread.extension != 'webm' and fobs.thread.extension != 'mp4'%}
 					<img class='post_file' src='/media/files/{{fobs.thread.id}}_thumb.{{fobs.thread.extension}}'>
 				{% else %}
 					<video class='post_file' src='/media/files/{{fobs.thread.id}}.{{fobs.thread.extension}}' controls='controls' preload='metadata'>
 				{% endif %}
+				</div>
 			</a>
 			<div class='post_details'> 
 				<div class='post_date' title='{{fobs.thread.date | date:"n/j/y P"}}'> {{fobs.thread.date | radtime}} </div> 
@@ -97,11 +99,13 @@
 				<div class='post_id' id={{p.post.id}}> </div>
 				{% if p.post.extension %}
 					<a target=_blank href='/media/files/{{p.post.id}}.{{p.post.extension}}'>
+						<div class='file_container'>
 						{% if p.post.extension != 'webm' and p.post.extension != 'mp4' %}
 							<img class='post_file' src='/media/files/{{p.post.id}}_thumb.{{p.post.extension}}'>
 						{% else %}
 							<video class='post_file' src='/media/files/{{p.post.id}}.{{p.post.extension}}' controls='controls' preload='metadata'>
 						{% endif %}
+						</div>
 					</a>
 				{% endif %}
 				<div class='post_details'> 

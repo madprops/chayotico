@@ -71,11 +71,13 @@
 				<div class='posted_on'> posted on &nbsp; <a class='board_link' href='/{{f.thread.board.abbr}}/'> /{{f.thread.board.abbr}}/ </a> </div>
 			{% endif %}
 			<a target=_blank href='/media/files/{{f.thread.id}}.{{f.thread.extension}}'>
+				<div class='file_container'>
 				{% if f.thread.extension != 'webm' and f.thread.extension != 'mp4' %}
 					<img class='post_file' src='/media/files/{{f.thread.id}}_thumb.{{f.thread.extension}}'>
 				{% else %}
 					<video class='post_file' src='/media/files/{{f.thread.id}}.{{f.thread.extension}}' controls='controls' preload='metadata'>
 				{% endif %}
+				</div>
 			</a>
 			<div class='post_details'> 
 				<div class='thread_date' title='{{f.thread.date | date:"n/j/y P"}}'> {{f.thread.date | radtime}} </div> 

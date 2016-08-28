@@ -97,11 +97,17 @@ a.login_header:link, a.login_header:hover, a.login_header:visited
 	padding-right: 0.7em;
 }
 
-.post_file
+.file_container
 {
+	max-height: 600px;
+	overflow: hidden;
 	float: left;
 	padding-right: 0.9em;
 	padding-bottom: 0.9em;
+}
+
+.post_file
+{
 	width: 250px;
 }
 
