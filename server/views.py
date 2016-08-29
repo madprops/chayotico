@@ -37,6 +37,7 @@ def boards_to_html():
 	s += "<a class='board_link' href='/all/'>/all/</a> <span class='h10'></span>"
 	for b in boards:
 		s += "<a class='board_link' href='/" + b.abbr + "/'>/" + b.abbr + "/</a> <span class='h10'></span>"
+	s += "<a class='board_link' target='_blank' href='http://handbeezy.com'>/hb/</a> <span class='span'></h10>"
 	s += "</div>"
 	return s
 
